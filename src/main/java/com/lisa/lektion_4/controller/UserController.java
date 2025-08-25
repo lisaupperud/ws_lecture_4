@@ -20,13 +20,23 @@ public class UserController {
                     new CustomUser("Benny", "123", true),
                     new CustomUser("Frida", "abc", true),
                     new CustomUser("Anton", "456", true),
-                    new CustomUser("Arvid", "789", true)
+                    new CustomUser("Arvid", "789", true),
+                    new CustomUser("Arvid", "def", false)
             )
     );
 
     @GetMapping("/")
     public List<CustomUser> userList() {
         return userList;
+    }
+
+    // RequestParam URL:
+    // localhost:8080/find?username=Benny
+    @GetMapping("/find")
+    // looks for and returns usernames
+    public List<CustomUser> findUser(@RequestParam("username") String username) {
+
+        return userList().stream().filter(i -> Objects.equals(i.username(), username)).toList();
     }
 
     @DeleteMapping("/{username}")
