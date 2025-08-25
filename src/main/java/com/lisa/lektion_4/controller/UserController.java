@@ -1,6 +1,7 @@
 package com.lisa.lektion_4.controller;
 
 import com.lisa.lektion_4.model.CustomUser;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +25,13 @@ public class UserController {
     );
 
     @GetMapping("/userList")
-    public List<CustomUser> test(){
+    public List<CustomUser> userList() {
         return userList;
+    }
+
+    @DeleteMapping("/delete")
+    public CustomUser deleteUser(){
+        return userList.removeFirst();
     }
 
 }
