@@ -1,17 +1,17 @@
 package com.lisa.lektion_4.controller;
 
 import com.lisa.lektion_4.model.CustomUser;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController // contains @Controller & @ResponseBody
 //@Controller      // is a specialized @Component for classpath Scanning & Mappings
 //@Component       //  enables naming of stereotype Annotations (Service, Repository, RestController), activation of classpath Scanning
 //@ResponseBody    // send a result (JSON/HTML)
+@RequestMapping(value = "/v1/user")
 public class UserController {
 
     // Debugging User List (Database users)
@@ -24,14 +24,25 @@ public class UserController {
             )
     );
 
-    @GetMapping("/userList")
+    @GetMapping("/")
     public List<CustomUser> userList() {
         return userList;
     }
 
-    @DeleteMapping("/delete")
-    public CustomUser deleteUser(){
-        return userList.removeFirst();
+    @DeleteMapping("/{username}")
+    public CustomUser deleteUser(@PathVariable("username") String username) {
+
+        CustomUser customUserToBeDeleted;
+
+        for (int i = 0; i < userList.size(); i++) {
+            if (Objects.equals(userList.get((i)).username(), username)) {
+                customUserToBeDeleted = userList.get(i);
+                userList.remove(customUserToBeDeleted);
+
+                return customUserToBeDeleted;
+            }
+        }
+        return null;
     }
 
 }
